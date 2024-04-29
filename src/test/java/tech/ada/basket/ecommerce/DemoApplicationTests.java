@@ -1,4 +1,4 @@
-package tech.ada.demo;
+package tech.ada.basket.ecommerce;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
