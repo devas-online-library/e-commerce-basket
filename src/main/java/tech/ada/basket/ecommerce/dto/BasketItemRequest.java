@@ -1,8 +1,8 @@
 package tech.ada.basket.ecommerce.dto;
 
-import lombok.*;
 
-import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
