@@ -1,0 +1,29 @@
+version: "3"
+services:
+  ecommerce_basket_db:
+    image: postgres:latest
+    volumes:
+      - db-data:/var/lib/postgresql/data1
+    environment:
+      POSTGRES_PASSWORD: basket
+      POSTGRES_USER: basket
+      POSTGRES_DB: basket
+    ports:
+      - "5432:5432"
+
+  ecommerce_basket_rabbit:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/docker_conf/rabbitmq/data/:/var/lib/rabbitmq/
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=12345
+    restart: always
+
+volumes:
+  db-data:
+    driver: local

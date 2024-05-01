@@ -1,22 +1,25 @@
 package tech.ada.basket.ecommerce.model;
-
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import tech.ada.basket.ecommerce.formatter.BasketFormatter;
+import lombok.*;
+import tech.ada.basket.ecommerce.model.enums.BasketStatus;
+import tech.ada.basket.ecommerce.payload.request.entities.Items;
 
 import java.util.List;
+import java.util.UUID;
 
+@Data
 @Entity
 @Table(name = "baskets")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Basket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "basket_id")
-    private Long basketId;
+    private UUID basketId;
 
     @Column(name = "customer_id")
     private String customerId;
@@ -27,26 +30,14 @@ public class Basket {
     @Enumerated(EnumType.STRING)
     private BasketStatus status;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "basket_id", referencedColumnName = "basket_id")
-    private List<BasketItem> items;
+    /*@OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "basket_id", referencedColumnName = "basket_id")*/
 
-    @Transient
-    private BasketFormatter<String> formatter;
+    private List<Items> items;
 
-    public Basket(BasketFormatter<String> formatter) {
-        this.formatter = formatter;
-    }
-
-    public Basket() {
-    }
-
-    public void addItem(BasketItem item) {
+    public void addItem(Items item) {
         items.add(item);
-        totalValue += item.getPrice() * item.getQuantity();
+        totalValue += item.getPrice() * Integer.parseInt(item.getQuantity());
     }
 
-    public String formatBasket() {
-        return formatter.formatBasket(this);
-    }
 }
